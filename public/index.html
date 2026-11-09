@@ -1,0 +1,1330 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#102a2b" />
+    <meta
+      name="description"
+      content="Direktori dan eksplorasi data UMKM Kota Balikpapan berdasarkan kecamatan dan kelurahan."
+    />
+    <title>Direktori UMKM Balikpapan</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="Direktori UMKM Balikpapan">
+          <span class="brand-mark">S</span>
+          <span class="brand-copy">
+            <strong>SOBAT<span>DATA</span></strong>
+            <small>UMKM BALIKPAPAN</small>
+          </span>
+        </a>
+
+        <div class="topbar-right">
+          <span class="source-indicator"><i></i> Sumber data publik</span>
+          <a
+            class="source-link"
+            href="https://sobatumkmbpp.balikpapan.go.id/members?page=1&amp;district=Balikpapan+Utara"
+            target="_blank"
+            rel="noopener"
+          >
+            Buka situs sumber <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">
+              <span></span> DIREKTORI USAHA KOTA BALIKPAPAN
+            </div>
+
+            <h1>Kenali potensi<br /><em>UMKM Balikpapan.</em></h1>
+
+            <p>
+              Telusuri data pelaku usaha berdasarkan kecamatan dan kelurahan.
+              Temukan profil, bidang usaha, serta informasi kontak dalam satu
+              tampilan.
+            </p>
+
+            <div class="hero-meta">
+              <span class="meta-icon">⌖</span> Kota Balikpapan, Kalimantan Timur
+              <b>•</b> Data dari SOBAT UMKM
+            </div>
+          </div>
+
+          <div class="hero-art" aria-hidden="true">
+            <div class="art-orbit orbit-one"></div>
+            <div class="art-orbit orbit-two"></div>
+
+            <div class="art-card art-card-main">
+              <span class="art-label">LOCAL BUSINESS</span>
+              <div class="art-bars">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <div class="art-card-footer">
+                <span>UMKM DIRECTORY</span><b>01 — 12</b>
+              </div>
+            </div>
+
+            <div class="art-chip chip-top">✳ <span>Potensi lokal</span></div>
+
+            <div class="art-chip chip-bottom">
+              <span class="chip-dot"></span><span>Data terkurasi</span>
+            </div>
+
+            <div class="art-circle">BPP</div>
+          </div>
+        </section>
+
+        <section class="stats-grid" aria-label="Ringkasan data">
+          <article class="stat-card stat-highlight">
+            <div class="stat-top">
+              <span>Total pelaku usaha</span>
+              <span class="stat-icon">▦</span>
+            </div>
+            <strong id="stat-total">0</strong>
+            <small id="stat-total-note">Menunggu data dimuat</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Kelurahan terdata</span>
+              <span class="stat-icon">⌖</span>
+            </div>
+            <strong id="stat-villages">0</strong>
+            <small>Teridentifikasi dari data</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Usaha aktif</span>
+              <span class="stat-icon">↗</span>
+            </div>
+            <strong id="stat-active">0</strong>
+            <small>Berdasarkan status usaha</small>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span>Kecamatan</span>
+              <span class="stat-icon">⌘</span>
+            </div>
+            <strong id="stat-districts">0</strong>
+            <small>Dalam data yang dimuat</small>
+          </article>
+        </section>
+
+        <section class="directory-section">
+          <div class="section-heading">
+            <div>
+              <div class="eyebrow eyebrow-dark">PENJELAJAH DATA</div>
+              <h2>Direktori pelaku usaha</h2>
+              <p>
+                Gunakan filter untuk mempersempit hasil berdasarkan wilayah atau
+                karakteristik usaha.
+              </p>
+            </div>
+
+            <div class="heading-actions">
+              <button
+                class="button button-ghost"
+                id="import-button"
+                type="button"
+              >
+                <span>⇧</span> Import JSON
+              </button>
+
+              <input
+                id="file-input"
+                type="file"
+                accept=".json,application/json"
+                multiple
+                hidden
+              />
+
+              <button
+                class="button button-primary"
+                id="load-data-button"
+                type="button"
+              >
+                <span>↻</span> Muat data
+              </button>
+            </div>
+          </div>
+
+          <div class="notice" id="data-notice" role="status">
+            <span class="notice-icon">i</span>
+            <div id="notice-message">
+              <strong>Memuat data UMKM.</strong>
+              Menghubungkan aplikasi dengan server lokal.
+            </div>
+            <button
+              id="notice-close"
+              type="button"
+              aria-label="Tutup pemberitahuan"
+            >
+              ×
+            </button>
+          </div>
+
+          <div class="filter-panel">
+            <div class="filter-title">
+              <span class="filter-title-icon">☷</span>
+              <div>
+                <strong>Filter data</strong>
+                <small>
+                  Filter kelurahan dibuat otomatis dari nilai
+                  <code>urban_village</code>.
+                </small>
+              </div>
+            </div>
+
+            <div class="filter-controls">
+              <label class="field field-search">
+                <span>Cari usaha</span>
+                <div class="input-wrap">
+                  <span class="search-icon">⌕</span>
+                  <input
+                    id="search-input"
+                    type="search"
+                    placeholder="Nama usaha, brand, pemilik, NIB..."
+                    autocomplete="off"
+                  />
+                </div>
+              </label>
+
+              <label class="field">
+                <span>Kecamatan</span>
+                <select id="district-select">
+                  <option value="">Semua kecamatan</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Kelurahan</span>
+                <select id="village-select" disabled>
+                  <option value="">Semua kelurahan</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span>Bidang usaha</span>
+                <select id="field-select">
+                  <option value="">Semua bidang</option>
+                </select>
+              </label>
+
+              <button
+                class="button button-reset"
+                id="reset-button"
+                type="button"
+              >
+                Reset filter <span>↺</span>
+              </button>
+            </div>
+
+            <div class="active-filter-line">
+              <span id="active-filter-text">Menunggu data dimuat</span>
+              <button id="clear-village" type="button" hidden>
+                Hapus filter kelurahan ×
+              </button>
+            </div>
+          </div>
+
+          <div class="results-toolbar">
+            <div>
+              <h3>Hasil pencarian <span id="result-count">0</span></h3>
+              <p id="result-caption">Daftar UMKM sesuai filter yang dipilih</p>
+            </div>
+
+            <button
+              class="button button-export"
+              id="export-button"
+              type="button"
+            >
+              <span>↓</span> Export CSV
+            </button>
+          </div>
+
+          <div class="table-card">
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>PELAKU USAHA</th>
+                    <th>LOKASI</th>
+                    <th>BIDANG / JENIS</th>
+                    <th>KONTAK</th>
+                    <th>STATUS</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="business-table-body"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="empty-state" hidden>
+              <div class="empty-illustration">⌕</div>
+              <strong>Data tidak ditemukan</strong>
+              <p>
+                Coba ubah kata kunci atau reset filter yang sedang digunakan.
+              </p>
+              <button
+                class="button button-ghost"
+                id="empty-reset"
+                type="button"
+              >
+                Reset filter
+              </button>
+            </div>
+
+            <div class="table-footer">
+              <span id="table-footer-text">Belum ada data</span>
+              <span class="data-source-footnote">
+                Data ditampilkan sesuai sumber yang berhasil dimuat.
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <footer class="footer">
+          <div class="footer-brand">
+            <span class="brand-mark brand-mark-small">S</span>
+            <span>
+              <strong>SOBATDATA</strong>
+              <small>UMKM BALIKPAPAN</small>
+            </span>
+          </div>
+
+          <p>
+            Antarmuka eksplorasi data untuk membantu penelusuran potensi UMKM
+            lokal.
+          </p>
+
+          <span class="footer-copy">
+            © 2026 · Data bersumber dari SOBAT UMKM
+          </span>
+        </footer>
+      </main>
+    </div>
+
+    <dialog id="detail-dialog" class="detail-dialog">
+      <div class="dialog-header">
+        <div>
+          <span class="dialog-eyebrow">PROFIL PELAKU USAHA</span>
+          <h2 id="detail-title">Detail usaha</h2>
+        </div>
+
+        <button
+          id="dialog-close"
+          class="dialog-close"
+          type="button"
+          aria-label="Tutup"
+        >
+          ×
+        </button>
+      </div>
+
+      <div id="detail-content" class="detail-content"></div>
+    </dialog>
+
+    <script>
+      "use strict";
+
+      const API_URL = "/api/shops";
+
+      const state = {
+        allShops: [],
+        filteredShops: [],
+        loading: false,
+        error: null,
+      };
+
+      const $ = (id) => document.getElementById(id);
+
+      const elements = {
+        total: $("stat-total"),
+        totalNote: $("stat-total-note"),
+        villages: $("stat-villages"),
+        active: $("stat-active"),
+        districts: $("stat-districts"),
+        search: $("search-input"),
+        district: $("district-select"),
+        village: $("village-select"),
+        field: $("field-select"),
+        tableBody: $("business-table-body"),
+        emptyState: $("empty-state"),
+        resultCount: $("result-count"),
+        resultCaption: $("result-caption"),
+        activeFilterText: $("active-filter-text"),
+        clearVillage: $("clear-village"),
+        footerText: $("table-footer-text"),
+        notice: $("data-notice"),
+        noticeMessage: $("notice-message"),
+        loadButton: $("load-data-button"),
+        fileInput: $("file-input"),
+        dialog: $("detail-dialog"),
+        detailTitle: $("detail-title"),
+        detailContent: $("detail-content"),
+      };
+
+      // Normalisasi data untuk mengantisipasi variasi nama field API.
+      function getValue(item, keys, fallback = "") {
+        for (const key of keys) {
+          const value = item?.[key];
+
+          if (value !== undefined && value !== null && value !== "") {
+            return value;
+          }
+        }
+
+        return fallback;
+      }
+
+      function normalizeShop(item) {
+        return {
+          ...item,
+
+          id: getValue(item, ["id", "shop_id", "uuid"], ""),
+          name: getValue(
+            item,
+            ["business_name", "name", "shop_name", "nama_usaha", "nama"],
+            "Tanpa nama",
+          ),
+          brand: getValue(
+            item,
+            ["brand_name", "brand", "merek", "nama_brand"],
+            "",
+          ),
+          owner: getValue(
+            item,
+            ["owner_name", "owner", "nama_pemilik", "pemilik"],
+            "",
+          ),
+
+          // Identitas dan legalitas
+          nib: getValue(
+            item,
+            ["business_nib", "nib", "business_license_number"],
+            "",
+          ),
+          npwp: getValue(item, ["npwp", "business_npwp"], ""),
+
+          // Lokasi
+          district: getValue(
+            item,
+            ["district", "district_name", "kecamatan", "subdistrict"],
+            "",
+          ),
+          village: getValue(
+            item,
+            ["urban_village", "village", "village_name", "kelurahan"],
+            "",
+          ),
+          address: getValue(
+            item,
+            ["business_address", "address", "full_address", "alamat"],
+            "",
+          ),
+
+          // Informasi usaha
+          businessField: getValue(
+            item,
+            [
+              "business_field",
+              "business_category",
+              "business_type",
+              "field",
+              "category",
+              "bidang_usaha",
+              "jenis_usaha",
+            ],
+            "",
+          ),
+          businessCapital: getValue(
+            item,
+            ["business_capital", "capital", "modal_usaha"],
+            "",
+          ),
+          businessAsset: getValue(
+            item,
+            ["business_asset", "business_assets", "asset", "aset_usaha"],
+            "",
+          ),
+          description: getValue(
+            item,
+            ["business_description", "description", "deskripsi"],
+            "",
+          ),
+
+          // Informasi kontak
+          phone: getValue(
+            item,
+            ["business_phone", "phone", "phone_number", "whatsapp"],
+            "",
+          ),
+
+          email: getValue(
+            item,
+            ["business_email", "email", "email_address"],
+            "",
+          ),
+
+          website: getValue(
+            item,
+            ["business_website", "website", "website_url"],
+            "",
+          ),
+
+          // Media sosial
+          instagram: getValue(item, ["link_ig"], ""),
+          tiktok: getValue(item, ["link_tiktok"], ""),
+          youtube: getValue(item, ["link_youtube"], ""),
+          facebook: getValue(item, ["link_facebook"], ""),
+
+          // Status
+          status: getValue(
+            item,
+            ["business_status", "status", "status_usaha", "is_active"],
+            "",
+          ),
+
+          // Dokumen legalitas — simpan sesuai nama field API
+          documents: {
+            nib: item.nib_file,
+            pirt: item.pirt_file,
+            halal: item.halal_file,
+            hki: item.hki_file,
+            brand: item.brand_file,
+            copyright: item.business_copyright_file,
+            industry: item.industry_documents_file,
+            patent: item.patent_file,
+          },
+
+          image: getValue(
+            item,
+            ["image", "logo", "photo", "image_url", "thumbnail"],
+            "",
+          ),
+        };
+      }
+
+      function escapeHTML(value) {
+        return String(value ?? "").replace(/[&<>"']/g, (char) => {
+          const entities = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;",
+          };
+
+          return entities[char];
+        });
+      }
+
+      function formatNumber(value) {
+        return Number(value || 0).toLocaleString("id-ID");
+      }
+
+      function getInitials(name) {
+        return String(name)
+          .trim()
+          .split(/\s+/)
+          .slice(0, 2)
+          .map((word) => word.charAt(0))
+          .join("")
+          .toUpperCase();
+      }
+
+      function normalizeStatus(status) {
+        const value = String(status).toLowerCase().trim();
+
+        if (
+          value === "1" ||
+          value === "active" ||
+          value === "aktif" ||
+          value === "true"
+        ) {
+          return "active";
+        }
+
+        if (
+          value === "0" ||
+          value === "inactive" ||
+          value === "nonaktif" ||
+          value === "tidak aktif" ||
+          value === "false"
+        ) {
+          return "inactive";
+        }
+
+        return "unknown";
+      }
+
+      function statusLabel(status) {
+        const normalized = normalizeStatus(status);
+
+        if (normalized === "active") return "Aktif";
+        if (normalized === "inactive") return "Tidak aktif";
+
+        return status ? String(status) : "Tidak diketahui";
+      }
+
+      function showNotice(message, type = "info") {
+        const notice = elements.notice;
+
+        notice.classList.remove(
+          "notice-info",
+          "notice-success",
+          "notice-warning",
+        );
+
+        notice.classList.add(`notice-${type}`);
+        elements.noticeMessage.textContent = message;
+        notice.hidden = false;
+      }
+
+      function hideNotice() {
+        elements.notice.hidden = true;
+      }
+
+      function extractShops(payload) {
+        if (Array.isArray(payload)) return payload;
+
+        if (Array.isArray(payload?.records)) return payload.records;
+        if (Array.isArray(payload?.data)) return payload.data;
+        if (Array.isArray(payload?.shops)) return payload.shops;
+        if (Array.isArray(payload?.results)) return payload.results;
+
+        if (Array.isArray(payload?.data?.records)) {
+          return payload.data.records;
+        }
+
+        if (Array.isArray(payload?.data?.data)) {
+          return payload.data.data;
+        }
+
+        throw new Error(
+          "Format data API tidak dikenali. Periksa respons /api/shops.",
+        );
+      }
+
+      async function loadShops(forceRefresh = false) {
+        if (state.loading) return;
+
+        state.loading = true;
+        elements.loadButton.disabled = true;
+        elements.loadButton.innerHTML =
+          '<span class="loading-spinner"></span> Memuat data';
+
+        showNotice(
+          "Mengambil data UMKM dari server lokal. Mohon tunggu...",
+          "info",
+        );
+
+        try {
+          const url = forceRefresh ? `${API_URL}?refresh=true` : API_URL;
+
+          const response = await fetch(url, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error(`Server mengembalikan HTTP ${response.status}.`);
+          }
+
+          const payload = await response.json();
+          const shops = extractShops(payload);
+
+          state.allShops = shops.map(normalizeShop);
+
+          populateDistricts();
+          populateFields();
+          updateDashboard();
+
+          applyFilters();
+
+          const total = state.allShops.length;
+
+          showNotice(
+            `Berhasil memuat ${formatNumber(total)} data UMKM dari server lokal.`,
+            "success",
+          );
+        } catch (error) {
+          console.error("Gagal memuat data UMKM:", error);
+
+          showNotice(
+            `Gagal memuat data: ${error.message}. Pastikan server.js berjalan dan endpoint /api/shops dapat diakses.`,
+            "warning",
+          );
+
+          state.error = error.message;
+        } finally {
+          state.loading = false;
+          elements.loadButton.disabled = false;
+          elements.loadButton.innerHTML = "<span>↻</span> Muat data";
+        }
+      }
+
+      function uniqueValues(items, key) {
+        return [
+          ...new Set(
+            items.map((item) => String(item[key] || "").trim()).filter(Boolean),
+          ),
+        ].sort((a, b) => a.localeCompare(b, "id"));
+      }
+
+      function populateSelect(select, values, placeholder) {
+        const currentValue = select.value;
+
+        select.innerHTML = "";
+
+        const defaultOption = document.createElement("option");
+        defaultOption.value = "";
+        defaultOption.textContent = placeholder;
+        select.appendChild(defaultOption);
+
+        values.forEach((value) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = value;
+          select.appendChild(option);
+        });
+
+        if (values.includes(currentValue)) {
+          select.value = currentValue;
+        }
+      }
+
+      function populateDistricts() {
+        const districts = uniqueValues(state.allShops, "district");
+
+        populateSelect(elements.district, districts, "Semua kecamatan");
+      }
+
+      function populateVillages() {
+        const selectedDistrict = elements.district.value;
+
+        const availableShops = selectedDistrict
+          ? state.allShops.filter((shop) => shop.district === selectedDistrict)
+          : state.allShops;
+
+        const villages = uniqueValues(availableShops, "village");
+
+        populateSelect(elements.village, villages, "Semua kelurahan");
+
+        elements.village.disabled = villages.length === 0;
+      }
+
+      function populateFields() {
+        const fields = uniqueValues(state.allShops, "businessField");
+
+        populateSelect(elements.field, fields, "Semua bidang");
+      }
+
+      function updateDashboard() {
+        const shops = state.allShops;
+
+        const villages = uniqueValues(shops, "village");
+        const districts = uniqueValues(shops, "district");
+
+        const activeCount = shops.filter(
+          (shop) => normalizeStatus(shop.status) === "active",
+        ).length;
+
+        elements.total.textContent = formatNumber(shops.length);
+        elements.totalNote.textContent = "Data berhasil dimuat";
+        elements.villages.textContent = formatNumber(villages.length);
+        elements.active.textContent = formatNumber(activeCount);
+        elements.districts.textContent = formatNumber(districts.length);
+      }
+
+      function applyFilters() {
+        const keyword = elements.search.value.toLowerCase().trim();
+        const district = elements.district.value;
+        const village = elements.village.value;
+        const field = elements.field.value;
+
+        state.filteredShops = state.allShops.filter((shop) => {
+          const searchable = [
+            shop.name,
+            shop.brand,
+            shop.owner,
+            shop.nib,
+            shop.district,
+            shop.village,
+            shop.businessField,
+            shop.address,
+            shop.phone,
+            shop.email,
+          ]
+            .join(" ")
+            .toLowerCase();
+
+          const matchesKeyword = !keyword || searchable.includes(keyword);
+
+          const matchesDistrict = !district || shop.district === district;
+
+          const matchesVillage = !village || shop.village === village;
+
+          const matchesField = !field || shop.businessField === field;
+
+          return (
+            matchesKeyword && matchesDistrict && matchesVillage && matchesField
+          );
+        });
+
+        renderTable();
+        updateFilterSummary();
+      }
+
+      function updateFilterSummary() {
+        const count = state.filteredShops.length;
+
+        elements.resultCount.textContent = formatNumber(count);
+
+        elements.resultCaption.textContent = `Menampilkan ${formatNumber(count)} dari ${formatNumber(state.allShops.length)} data UMKM`;
+
+        const filters = [];
+
+        if (elements.district.value) {
+          filters.push(`Kecamatan: ${elements.district.value}`);
+        }
+
+        if (elements.village.value) {
+          filters.push(`Kelurahan: ${elements.village.value}`);
+        }
+
+        if (elements.field.value) {
+          filters.push(`Bidang: ${elements.field.value}`);
+        }
+
+        if (elements.search.value.trim()) {
+          filters.push(`Kata kunci: "${elements.search.value.trim()}"`);
+        }
+
+        elements.activeFilterText.textContent = filters.length
+          ? `Filter aktif: ${filters.join(" • ")}`
+          : `Menampilkan seluruh ${formatNumber(state.allShops.length)} data`;
+
+        elements.clearVillage.hidden = !elements.village.value;
+
+        elements.footerText.textContent = count
+          ? `Menampilkan ${formatNumber(count)} data`
+          : "Tidak ada data yang ditampilkan";
+      }
+
+      function renderTable() {
+        const shops = state.filteredShops;
+
+        elements.tableBody.innerHTML = "";
+
+        elements.emptyState.hidden = shops.length !== 0;
+
+        if (shops.length === 0) return;
+
+        const fragment = document.createDocumentFragment();
+
+        shops.forEach((shop, index) => {
+          const row = document.createElement("tr");
+
+          const status = normalizeStatus(shop.status);
+          const statusClass =
+            status === "active"
+              ? "status-active"
+              : status === "inactive"
+                ? "status-inactive"
+                : "status-unknown";
+
+          const contact = shop.phone || shop.email;
+
+          const avatar = shop.image
+            ? `<img src="${escapeHTML(shop.image)}" alt="" loading="lazy" onerror="this.remove()">`
+            : escapeHTML(getInitials(shop.name));
+
+          row.innerHTML = `
+            <td>
+              <div class="business-cell">
+                <div class="business-avatar">${avatar}</div>
+                <div>
+                  <div class="business-name" title="${escapeHTML(shop.name)}">
+                    ${escapeHTML(shop.name)}
+                  </div>
+                  <div class="business-sub">
+                    ${escapeHTML(shop.brand || shop.owner || shop.nib || "Pelaku UMKM")}
+                  </div>
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <div class="location-main">
+                ${escapeHTML(shop.village || "—")}
+              </div>
+              <div class="location-sub">
+                ${escapeHTML(shop.district || "Kecamatan tidak tersedia")}
+              </div>
+            </td>
+
+            <td>
+              <div class="category-main">
+                ${escapeHTML(shop.businessField || "—")}
+              </div>
+              <div class="category-sub">
+                ${escapeHTML(shop.business_type || shop.category || "—")}
+              </div>
+            </td>
+
+            <td>
+              ${
+                contact
+                  ? `<span class="contact-link">${escapeHTML(contact)}</span>`
+                  : '<span class="contact-muted">Tidak tersedia</span>'
+              }
+            </td>
+
+            <td>
+              <span class="status-pill ${statusClass}">
+                ${escapeHTML(statusLabel(shop.status))}
+              </span>
+            </td>
+
+            <td>
+              <button
+                class="row-detail"
+                type="button"
+                data-index="${index}"
+                aria-label="Lihat detail ${escapeHTML(shop.name)}"
+                title="Lihat detail"
+              >↗</button>
+            </td>
+          `;
+
+          fragment.appendChild(row);
+        });
+
+        elements.tableBody.appendChild(fragment);
+      }
+
+      function createDetailItem(label, value, full = false) {
+        if (!value) return "";
+
+        return `
+          <div class="detail-item ${full ? "full" : ""}">
+            <small>${escapeHTML(label)}</small>
+            <strong>${escapeHTML(value)}</strong>
+          </div>
+        `;
+      }
+
+      const SOURCE_BASE_URL = "https://sobatumkmbpp.balikpapan.go.id";
+
+      function getDocumentUrl(document) {
+        if (!document) return "";
+
+        let value = document;
+
+        if (typeof document === "object") {
+          value =
+            document.url ||
+            document.file_url ||
+            document.download_url ||
+            document.path ||
+            document.file ||
+            document.filename ||
+            "";
+        }
+
+        if (typeof value !== "string") return "";
+
+        value = value.trim();
+
+        if (!value) return "";
+
+        // Hanya izinkan URL HTTP/HTTPS.
+        if (/^https?:\/\//i.test(value)) {
+          return value;
+        }
+
+        // Menangani path file relatif dari server sumber.
+        if (value.startsWith("/")) {
+          return `${SOURCE_BASE_URL}${value}`;
+        }
+
+        return `${SOURCE_BASE_URL}/${value}`;
+      }
+
+      function createDocumentItem(label, document) {
+        const url = getDocumentUrl(document);
+
+        if (!url) return "";
+
+        return `
+    <div class="detail-item full">
+      <small>${escapeHTML(label)}</small>
+      <a
+        href="${escapeHTML(url)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Lihat dokumen ↗
+      </a>
+    </div>
+  `;
+      }
+
+      function createDocumentsSection(documents) {
+        const documentTypes = [
+          ["NIB", documents.nib],
+          ["Sertifikat PIRT", documents.pirt],
+          ["Sertifikat Halal", documents.halal],
+          ["Hak Kekayaan Intelektual (HKI)", documents.hki],
+          ["Dokumen Merek", documents.brand],
+          ["Hak Cipta Usaha", documents.copyright],
+          ["Dokumen Industri", documents.industry],
+          ["Dokumen Paten", documents.patent],
+        ];
+
+        const availableDocuments = documentTypes
+          .map(([label, document]) => createDocumentItem(label, document))
+          .filter(Boolean);
+
+        if (!availableDocuments.length) {
+          return `
+      <section class="detail-section">
+        <h3>Dokumen dan Legalitas</h3>
+        <div class="detail-item full">
+          <small>Informasi dokumen</small>
+          <strong>Belum ada dokumen yang tersedia.</strong>
+        </div>
+      </section>
+    `;
+        }
+
+        return `
+    <section class="detail-section">
+      <h3>Dokumen dan Legalitas</h3>
+      <div class="detail-grid">
+        ${availableDocuments.join("")}
+      </div>
+    </section>
+  `;
+      }
+
+      function showDetail(shop) {
+        elements.detailTitle.textContent = shop.name;
+
+        const detailHTML = `
+    <section class="detail-section">
+      <h3>Informasi Usaha</h3>
+
+      <div class="detail-grid">
+        ${createDetailItem("Nama usaha", shop.name)}
+        ${createDetailItem("Nama brand", shop.brand)}
+        ${createDetailItem("Nama pemilik", shop.owner)}
+        ${createDetailItem("Bidang usaha", shop.businessField)}
+        ${createDetailItem("Status usaha", statusLabel(shop.status))}
+        ${createDetailItem("Deskripsi usaha", shop.description, true)}
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h3>Identitas dan Legalitas</h3>
+
+      <div class="detail-grid">
+        ${createDetailItem("Nomor Induk Berusaha (NIB)", shop.nib)}
+        ${createDetailItem("NPWP", shop.npwp)}
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h3>Lokasi Usaha</h3>
+
+      <div class="detail-grid">
+        ${createDetailItem("Kecamatan", shop.district)}
+        ${createDetailItem("Kelurahan", shop.village)}
+        ${createDetailItem("Alamat lengkap", shop.address, true)}
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h3>Informasi Modal dan Aset</h3>
+
+      <div class="detail-grid">
+        ${createDetailItem("Modal usaha", shop.businessCapital)}
+        ${createDetailItem("Aset usaha", shop.businessAsset)}
+      </div>
+    </section>
+
+    <section class="detail-section">
+      <h3>Informasi Kontak dan Media Sosial</h3>
+
+      <div class="detail-grid">
+        ${createDetailItem("Nomor telepon", shop.phone)}
+        ${createDetailItem("Email", shop.email)}
+
+        ${
+          shop.website
+            ? `
+              <div class="detail-item full">
+                <small>Website</small>
+                <a href="${escapeHTML(shop.website)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  ${escapeHTML(shop.website)} ↗
+                </a>
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          shop.instagram
+            ? `
+              <div class="detail-item">
+                <small>Instagram</small>
+                <a href="${escapeHTML(shop.instagram)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Lihat Instagram ↗
+                </a>
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          shop.tiktok
+            ? `
+              <div class="detail-item">
+                <small>TikTok</small>
+                <a href="${escapeHTML(shop.tiktok)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Lihat TikTok ↗
+                </a>
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          shop.youtube
+            ? `
+              <div class="detail-item">
+                <small>YouTube</small>
+                <a href="${escapeHTML(shop.youtube)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Lihat YouTube ↗
+                </a>
+              </div>
+            `
+            : ""
+        }
+
+        ${
+          shop.facebook
+            ? `
+              <div class="detail-item">
+                <small>Facebook</small>
+                <a href="${escapeHTML(shop.facebook)}"
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  Lihat Facebook ↗
+                </a>
+              </div>
+            `
+            : ""
+        }
+      </div>
+    </section>
+
+    ${createDocumentsSection(shop.documents)}
+  `;
+
+        elements.detailContent.innerHTML = detailHTML;
+        elements.dialog.showModal();
+      }
+
+      function resetFilters() {
+        elements.search.value = "";
+        elements.district.value = "";
+        elements.field.value = "";
+
+        populateVillages();
+
+        elements.village.value = "";
+
+        applyFilters();
+      }
+
+      function exportCSV() {
+        const shops = state.filteredShops;
+
+        if (!shops.length) {
+          showNotice("Tidak ada data untuk diekspor.", "warning");
+          return;
+        }
+
+        const headers = [
+          "Nama Usaha",
+          "Brand",
+          "Pemilik",
+          "NIB",
+          "Kecamatan",
+          "Kelurahan",
+          "Bidang Usaha",
+          "Kontak",
+          "Email",
+          "Alamat",
+          "Status",
+        ];
+
+        const rows = shops.map((shop) => [
+          shop.name,
+          shop.brand,
+          shop.owner,
+          shop.nib,
+          shop.district,
+          shop.village,
+          shop.businessField,
+          shop.phone,
+          shop.email,
+          shop.address,
+          statusLabel(shop.status),
+        ]);
+
+        const escapeCSV = (value) =>
+          `"${String(value ?? "").replace(/"/g, '""')}"`;
+
+        const csv = [
+          headers.map(escapeCSV).join(","),
+          ...rows.map((row) => row.map(escapeCSV).join(",")),
+        ].join("\r\n");
+
+        const blob = new Blob(["\uFEFF" + csv], {
+          type: "text/csv;charset=utf-8;",
+        });
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+
+        link.href = url;
+        link.download = "direktori-umkm-balikpapan.csv";
+        link.click();
+
+        URL.revokeObjectURL(url);
+      }
+
+      async function importJSON(files) {
+        if (!files.length) return;
+
+        try {
+          const imported = [];
+
+          for (const file of files) {
+            const text = await file.text();
+            const parsed = JSON.parse(text);
+
+            imported.push(...extractShops(parsed));
+          }
+
+          if (!imported.length) {
+            throw new Error("File JSON tidak memiliki data UMKM.");
+          }
+
+          state.allShops = imported.map(normalizeShop);
+
+          populateDistricts();
+          populateVillages();
+          populateFields();
+
+          updateDashboard();
+          applyFilters();
+
+          showNotice(
+            `Berhasil mengimpor ${formatNumber(imported.length)} data dari file JSON.`,
+            "success",
+          );
+        } catch (error) {
+          console.error("Import JSON gagal:", error);
+
+          showNotice(`Gagal mengimpor JSON: ${error.message}`, "warning");
+        } finally {
+          elements.fileInput.value = "";
+        }
+      }
+
+      // Event listeners
+      $("load-data-button").addEventListener("click", () => {
+        loadShops(true);
+      });
+
+      $("import-button").addEventListener("click", () => {
+        elements.fileInput.click();
+      });
+
+      elements.fileInput.addEventListener("change", (event) => {
+        importJSON(Array.from(event.target.files || []));
+      });
+
+      elements.search.addEventListener("input", applyFilters);
+
+      elements.district.addEventListener("change", () => {
+        populateVillages();
+        applyFilters();
+      });
+
+      elements.village.addEventListener("change", applyFilters);
+      elements.field.addEventListener("change", applyFilters);
+
+      $("reset-button").addEventListener("click", resetFilters);
+      $("empty-reset").addEventListener("click", resetFilters);
+
+      $("clear-village").addEventListener("click", () => {
+        elements.village.value = "";
+        applyFilters();
+      });
+
+      $("export-button").addEventListener("click", exportCSV);
+
+      $("notice-close").addEventListener("click", hideNotice);
+
+      $("dialog-close").addEventListener("click", () => {
+        elements.dialog.close();
+      });
+
+      elements.tableBody.addEventListener("click", (event) => {
+        const button = event.target.closest("[data-index]");
+
+        if (!button) return;
+
+        const index = Number(button.dataset.index);
+        const shop = state.filteredShops[index];
+
+        if (shop) showDetail(shop);
+      });
+
+      elements.dialog.addEventListener("click", (event) => {
+        if (event.target === elements.dialog) {
+          elements.dialog.close();
+        }
+      });
+
+      // Load otomatis ketika halaman pertama kali dibuka.
+      document.addEventListener("DOMContentLoaded", () => {
+        loadShops(false);
+      });
+    </script>
+  </body>
+</html>
